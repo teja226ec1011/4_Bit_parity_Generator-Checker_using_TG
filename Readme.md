@@ -150,7 +150,7 @@ The XOR gate was designed at transistor level using CMOS transmission gate logic
 
 The implementation consists of NMOS and PMOS transistors configured to perform the XOR operation.
 
-![XOR Gate Schematic](Images/XOR_GATE_Schematic.png)
+![XOR Gate Schematic](Images/XOR GATE Schematic.jpg)
 
 ---
 
@@ -170,7 +170,7 @@ The complete circuit was constructed by cascading four transmission-gate-based X
 
 The first three XOR gates generate the even parity bit, while the fourth XOR gate performs parity checking.
 
-![Complete Parity Generator and Checker Schematic](Images/Parity_Generator_Checker_Schematic.png)
+![Complete Parity Generator and Checker Schematic](Images/parity Generator & Checker Schematic.jpg)
 
 ---
 
@@ -180,7 +180,7 @@ A separate testbench was created to verify the functionality of the complete par
 
 The testbench provides input combinations to the circuit and allows observation of the generated parity and error detection outputs.
 
-![Parity Generator and Checker Testbench](Images/Parity_Generator_Checker_TB.png)
+![Parity Generator and Checker Testbench](Images/Parity generator&checker TB.jpg)
 
 ---
 
@@ -195,7 +195,7 @@ The expected operation is:
 - ERROR = 0 when the generated and received parity bits match.
 - ERROR = 1 when the generated and received parity bits differ.
 
-![Parity Generator and Checker Waveform](Images/Parity_Generator_Checker_Waveform.png)
+![Parity Generator and Checker Waveform](Images/Parity generator and checker waveform.jpg)
 
 ---
 
@@ -205,7 +205,7 @@ The complete physical layout of the 4-bit parity generator and checker was devel
 
 The layout represents the complete circuit connectivity, including the generator and checker sections.
 
-![Complete Parity Generator and Checker Layout](Images/Parity_Generator_Checker_Layout.png)
+![Complete Parity Generator and Checker Layout](Images/parity generator&checker layout.jpg)
 
 ---
 
@@ -221,7 +221,7 @@ DRC checks include:
 - Metal routing rules.
 - Well and diffusion design rules.
 
-![DRC Check Results](Images/DRC_Check.png)
+![DRC Check Results](Images/DRC Check.jpg)
 
 ---
 
@@ -235,11 +235,11 @@ The LVS debugging screenshots are included below for reference.
 
 ### LVS Debug Screenshot 1
 
-![LVS Debug 1](Images/LVS_Debug_1.png)
+![LVS Debug 1](Images/LVS debug_1.jpg)
 
 ### LVS Debug Screenshot 2
 
-![LVS Debug 2](Images/LVS_Debug_2.png)
+![LVS Debug 2](Images/LVS debug.jpg)
 
 ---
 
