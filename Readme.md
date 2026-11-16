@@ -93,29 +93,6 @@ The complete circuit consists of two main sections:
 
 The design uses four cascaded XOR stages.
 
-```text
-             A ──────┐
-                     XOR1
-             B ──────┘
-                       |
-                       X1
-                       |
-             C ────── XOR2
-                       |
-                       X2
-                       |
-             D ────── XOR3
-                       |
-                       |
-                     P_GEN
-                       |
-                       |
-             P_RX ── XOR4
-                       |
-                       |
-                     ERROR
-```
-
 ---
 
 ## 6. Transmission Gate XOR Implementation
@@ -150,7 +127,7 @@ The XOR gate was designed at transistor level using CMOS transmission gate logic
 
 The implementation consists of NMOS and PMOS transistors configured to perform the XOR operation.
 
-![XOR Gate Schematic](Images/XOR GATE Schematic.jpg)
+![XOR Gate Schematic](Images/XOR%20GATE%20Schematic.jpg)
 
 ---
 
@@ -170,7 +147,7 @@ The complete circuit was constructed by cascading four transmission-gate-based X
 
 The first three XOR gates generate the even parity bit, while the fourth XOR gate performs parity checking.
 
-![Complete Parity Generator and Checker Schematic](Images/parity Generator & Checker Schematic.jpg)
+![Complete Parity Generator and Checker Schematic](Images/parity%20generator%20%26%20checker%20schematic.jpg)
 
 ---
 
@@ -180,7 +157,7 @@ A separate testbench was created to verify the functionality of the complete par
 
 The testbench provides input combinations to the circuit and allows observation of the generated parity and error detection outputs.
 
-![Parity Generator and Checker Testbench](Images/Parity generator&checker TB.jpg)
+![Parity Generator and Checker Testbench](Images/Parity%20generator%26checker%20TB.jpg)
 
 ---
 
@@ -195,7 +172,7 @@ The expected operation is:
 - ERROR = 0 when the generated and received parity bits match.
 - ERROR = 1 when the generated and received parity bits differ.
 
-![Parity Generator and Checker Waveform](Images/Parity generator and checker waveform.jpg)
+![Parity Generator and Checker Waveform](Images/Parity%20generator%20and%20checker%20waveform.jpg)
 
 ---
 
@@ -205,7 +182,7 @@ The complete physical layout of the 4-bit parity generator and checker was devel
 
 The layout represents the complete circuit connectivity, including the generator and checker sections.
 
-![Complete Parity Generator and Checker Layout](Images/parity generator&checker layout.jpg)
+![Complete Parity Generator and Checker Layout](Images/partiry%20generator&checker%20layout.jpg)
 
 ---
 
@@ -221,7 +198,7 @@ DRC checks include:
 - Metal routing rules.
 - Well and diffusion design rules.
 
-![DRC Check Results](Images/DRC Check.jpg)
+![DRC Check Results](Images/DRC%20Check.jpg)
 
 ---
 
@@ -235,11 +212,11 @@ The LVS debugging screenshots are included below for reference.
 
 ### LVS Debug Screenshot 1
 
-![LVS Debug 1](Images/LVS debug_1.jpg)
+![LVS Debug 1](Images/LVS%20debug.jpg)
 
 ### LVS Debug Screenshot 2
 
-![LVS Debug 2](Images/LVS debug.jpg)
+![LVS Debug 2](Images/LVS%20debug_1.jpg)
 
 ---
 
@@ -259,7 +236,7 @@ The 4-Bit Parity Generator and Checker was designed using CMOS Transmission Gate
 
 The project demonstrates the implementation of XOR-based parity generation and error detection at the transistor level.
 
-The design also provides practical experience in full-custom VLSI design, schematic development, transient simulation, physical layout implementation, and DRC/LVS verification.
+The project also provides practical experience in full-custom VLSI design, schematic development, transient simulation, physical layout implementation, and DRC/LVS verification.
 
 ---
 
@@ -271,15 +248,15 @@ The design also provides practical experience in full-custom VLSI design, schema
 ├── README.md
 │
 └── Images/
-    ├── XOR_GATE_Schematic.png
+    ├── DRC Check.jpg
+    ├── LVS debug.jpg
+    ├── LVS debug_1.jpg
+    ├── Parity generator and checker waveform.jpg
+    ├── Parity generator&checker TB.jpg
+    ├── XOR GATE Schematic.jpg
     ├── XOR_LAYOUT.png
-    ├── Parity_Generator_Checker_Schematic.png
-    ├── Parity_Generator_Checker_TB.png
-    ├── Parity_Generator_Checker_Waveform.png
-    ├── Parity_Generator_Checker_Layout.png
-    ├── DRC_Check.png
-    ├── LVS_Debug_1.png
-    └── LVS_Debug_2.png
+    ├── parity generator & checker schematic.jpg
+    └── partity generator&checker layout.jpg
 ```
 
 ---
