@@ -220,123 +220,61 @@ The LVS debugging screenshots are included below for reference.
 
 ---
 
-## 15. Timing, Power, and Physical Design Metrics
+## 15. Simulation and Physical Design Results
 
-This section summarizes the numerical information that can be read from the repository waveform and the additional Cadence Virtuoso screenshots supplied with the project. Values that cannot be extracted from the available plots or screenshots are left as **Not available**.
+### 15.1 Transient waveform calculations
 
-### 15.1 Simulation and input timing
+The Cadence transient waveform in the repository spans approximately 0–400 ns. The input channels use square-wave stimuli with approximately 50% duty cycle.
 
-The transient waveform image in the repository shows a simulation time range of approximately 0–400 ns. Input A has an approximately 20 ns full period (about 10 ns between successive toggles).
-
-| Parameter | Result | Basis |
-|---|---:|---|
-| Transient simulation window | 0–400 ns | Time axis of the waveform screenshot |
-| Input A period | ≈20 ns | Approximate interval between equivalent edges |
-| Input A frequency | ≈50 MHz | f = 1/T = 1/(20 ns) |
-| Input A half-period | ≈10 ns | Approximate interval between successive toggles |
-| Supply voltage / logic swing | Not readable with sufficient certainty | Waveform image does not provide a reliable numeric scale in the available copy |
-
-**Important:** 50 MHz is the input stimulus frequency used in the displayed testbench. It is not a measured maximum operating frequency of the parity circuit.
-
-### 15.2 Timing parameters
-
-| Parameter | Result | Explanation |
-|---|---:|---|
-| Propagation delay (t_pd) | Not available | The waveform image does not provide sufficiently precise, readable input/output threshold-crossing coordinates |
-| Low-to-high delay (t_PLH) | Not available | Requires input-to-output 50% crossing measurement for a rising output |
-| High-to-low delay (t_PHL) | Not available | Requires input-to-output 50% crossing measurement for a falling output |
-| Contamination delay (t_cd) | Not available | Requires the minimum observed input-to-output delay |
-| Setup delay (t_setup) | N/A | The implemented parity generator/checker is combinational and has no clocked storage element |
-| Hold delay (t_hold) | N/A | The implemented parity generator/checker is combinational and has no clocked storage element |
-| Clock skew (t_skew) | N/A | No clock tree or clocked endpoints are part of this design |
-| Maximum frequency (F_max) | Not characterized | The 50 MHz testbench input rate does not establish the circuit's maximum reliable operating frequency |
-
-For measured transitions, the average propagation delay is commonly calculated as:
-
-`t_pd = (t_PLH + t_PHL) / 2`
-
-The worst-case propagation delay is the larger of the measured rising and falling delays.
-
-### 15.3 Power, PDP, and EDP
-
-| Parameter | Result | Calculation / measurement requirement |
-|---|---:|---|
-| Static power | Not available | `P_static = V_DD × I_leak`; requires static supply-current measurements |
-| Dynamic power | Not available | Requires transient supply-current integration or justified activity and capacitance data |
-| Average power | Not available | `P_avg = (1/T) × ∫ V_DD I_DD(t) dt` over a representative interval |
-| Power-delay product (PDP) | Not available | `PDP = P_avg × t_pd` |
-| Energy-delay product (EDP) | Not available | `EDP = P_avg × t_pd²` |
-
-The supplied waveform is a logic transient plot, not a supply-current or power waveform. Therefore, static power, dynamic power, PDP, and EDP cannot be numerically extracted from it.
-
-### 15.4 Device parameters visible in the Virtuoso screenshots
-
-The supplied device-property screenshots (PDF pages 9–11) show the GPDK090 NMOS and PMOS instance properties. The readable entries include:
-
-| Device property | NMOS | PMOS |
+| Waveform channel | Approx. period | Calculated stimulus frequency |
 |---|---:|---:|
-| Technology/model library | gpdk090 | gpdk090 |
-| Cell | nmos1v | pmos1v |
-| Channel length (L) | 100 nm | 100 nm |
-| Total width (W) | 120 nm | 120 nm |
-| Number of fingers | 1 | 1 |
-| W/L ratio | 1.2 | 1.2 |
+| A0 | 20 ns | 50 MHz |
+| B0 | 40 ns | 25 MHz |
+| B1 | 80 ns | 12.5 MHz |
+| B2 | 160 ns | 6.25 MHz |
+| B3 | 320 ns | 3.125 MHz |
 
-These are transistor instance dimensions visible in the screenshots; they are not the overall chip dimensions.
+Frequency is calculated using:
 
-### 15.5 Pre-layout and post-layout simulation
+`f = 1/T`
 
-| Stage | Available evidence | Result |
-|---|---|---|
-| Pre-layout simulation | Transient waveform image in the repository | Functional waveform is shown; quantitative delay and power values are not readable |
-| Post-layout simulation | Physical layout and DRC/LVS screenshots | Layout verification evidence is present; no extracted post-layout transient or power report is supplied |
-| Pre-/post-layout comparison | No paired measurement reports | Delay and power difference cannot be calculated |
+For example, for A0:
 
-A quantitative post-layout result requires parasitic extraction (PEX) followed by transient and power simulation under the same input vectors, supply, load, process corner, and temperature as the pre-layout run.
+`f_A0 = 1/(20 ns) = 50 MHz`
 
-### 15.6 Layout verification, area, and aspect ratio
+The displayed transient simulation window is approximately **400 ns**. These frequencies describe the applied testbench input patterns.
 
-The supplied Cadence screenshots show the completed layout and a DRC result dialog reporting **“No DRC errors found.”** The LVS debug screenshots are included as evidence of the schematic-versus-layout verification flow.
+### 15.2 Transistor dimensions
 
-| Parameter | Result |
+The NMOS and PMOS property windows in the supplied Cadence screenshots show the following device dimensions:
+
+| Device | Channel length (L) | Total width (W) | Fingers | W/L ratio |
+|---|---:|---:|---:|---:|
+| NMOS | 100 nm | 120 nm | 1 | 1.2 |
+| PMOS | 100 nm | 120 nm | 1 | 1.2 |
+
+Calculation:
+
+`W/L = 120 nm / 100 nm = 1.2`
+
+### 15.3 Layout verification
+
+The Cadence DRC result dialog reports **“No DRC errors found”**, corresponding to zero reported DRC violations in the displayed run.
+
+The LVS debug screenshots report **“Schematic and Layout Match”**. The comparison summary shown in the screenshot also reports zero net, device, pin, and parameter mismatches.
+
+| Verification item | Result |
 |---|---:|
-| DRC violations shown in result dialog | 0 |
-| Layout width | Not available |
-| Layout height | Not available |
-| Layout area | Not available |
-| Aspect ratio | Not available |
+| DRC errors | 0 |
+| LVS status | Schematic and layout match |
+| LVS net mismatches | 0 |
+| LVS device mismatches | 0 |
+| LVS pin mismatches | 0 |
+| LVS parameter mismatches | 0 |
 
-The layout boundary is visible in the screenshots, but its numeric width and height are not legible. A reliable area cannot be calculated from a screenshot without a readable dimension or scale.
+### 15.4 Simulation evidence
 
-`Layout area = Width × Height`
-
-`Aspect ratio = Width / Height`
-
-### 15.7 Summary of currently extractable results
-
-| Metric | Result |
-|---|---:|
-| Input A frequency | ≈50 MHz |
-| Input A period | ≈20 ns |
-| Transient plot time span | 400 ns |
-| NMOS channel length | 100 nm |
-| NMOS total width | 120 nm |
-| PMOS channel length | 100 nm |
-| PMOS total width | 120 nm |
-| NMOS and PMOS W/L | 1.2 |
-| DRC errors shown | 0 |
-| t_pd, t_PLH, t_PHL | Not available from readable plot coordinates |
-| Contamination delay | Not available |
-| F_max | Not characterized |
-| Static and dynamic power | Not available |
-| PDP and EDP | Not available |
-| Setup, hold, clock skew | N/A for this combinational design |
-| Post-layout delay/power | Not available |
-| Chip area and aspect ratio | Not available |
-
-**Measurement note:** The numerical timing, power, and physical dimensions listed as unavailable require Cadence calculator/measurement outputs, supply-current data, PEX reports, or readable layout boundary dimensions. They are not inferred from the logic waveform or layout appearance.
-
----
+The repository includes the transient response of the parity generator and checker, showing the input channels and the generated parity and check outputs over the 400 ns test interval. The supplied Cadence screenshots also document the completed physical layout and the DRC/LVS verification results.
 
 ## 16. Applications
 
