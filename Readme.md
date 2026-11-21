@@ -279,7 +279,7 @@ The testbench applies a maximum input stimulus frequency of 50 MHz, which is bel
 
 For a combinational circuit, this frequency is a delay-based estimate; it is not a clock-constrained timing result.
 
-### 15.3 Sequential timing applicability
+### 15.4 Sequential timing applicability
 
 The parity generator and checker are combinational logic blocks built from XOR stages. They do not contain a clocked storage element or a clock distribution network. Setup time, hold time, and clock skew are therefore not applicable to this circuit.
 
@@ -337,7 +337,14 @@ The supplied Cadence DRC result dialog reports **“No DRC errors found.”** Th
 | LVS pin mismatches | 0 |
 | LVS parameter mismatches | 0 |
 
-### 15.8 Simulation evidence
+### 15.8 Pre-layout and post-layout simulation
+
+| Stage | Project result |
+|---|---|
+| Pre-layout | Transient response waveform included; input and output behavior is shown over 0–400 ns |
+| Post-layout | Physical layout completed; DRC reports zero errors and LVS reports schematic/layout match |
+
+### 15.9 Simulation evidence
 
 The repository contains a transient response waveform for the parity generator and checker over a 400 ns test interval, together with the complete physical layout and DRC/LVS verification screenshots.
 
