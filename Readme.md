@@ -249,6 +249,7 @@ The visible output transitions track the corresponding input-driven logic change
 | Timing observation | Result |
 |---|---:|
 | Apparent input-to-output transition difference | ≤ approximately 0.25 ns at the displayed plot resolution |
+| Average propagation delay (t_pd) | ≤ approximately 0.25 ns at the displayed plot resolution |
 | Apparent low-to-high output transition difference | ≤ approximately 0.25 ns at the displayed plot resolution |
 | Apparent high-to-low output transition difference | ≤ approximately 0.25 ns at the displayed plot resolution |
 
