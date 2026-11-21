@@ -220,13 +220,13 @@ The LVS debugging screenshots are included below for reference.
 
 ---
 
-## 15. Simulation and Physical Design Results
+## 15. Timing and Simulation Results
 
-### 15.1 Transient waveform calculations
+### 15.1 Input waveform measurements
 
-The Cadence transient waveform in the repository spans approximately 0–400 ns. The input channels use square-wave stimuli with approximately 50% duty cycle.
+The transient response spans approximately 0–400 ns. The input waveforms have the following approximate periods and frequencies, read from the horizontal time axis.
 
-| Waveform channel | Approx. period | Calculated stimulus frequency |
+| Waveform | Approx. period | Frequency |
 |---|---:|---:|
 | A0 | 20 ns | 50 MHz |
 | B0 | 40 ns | 25 MHz |
@@ -234,36 +234,44 @@ The Cadence transient waveform in the repository spans approximately 0–400 ns.
 | B2 | 160 ns | 6.25 MHz |
 | B3 | 320 ns | 3.125 MHz |
 
-Frequency is calculated using:
-
 `f = 1/T`
 
-For example, for A0:
+The highest input frequency applied in the displayed testbench is **50 MHz**.
 
-`f_A0 = 1/(20 ns) = 50 MHz`
+### 15.2 Output transition timing from the plotted waveform
 
-The displayed transient simulation window is approximately **400 ns**. These frequencies describe the applied testbench input patterns.
+The plot covers 400 ns across approximately 1,610 horizontal pixels, giving a display resolution of approximately:
 
-The **highest input stimulus frequency is 50 MHz**, set by channel A0.
+`400 ns / 1610 ≈ 0.25 ns per pixel`
 
-### 15.2 Transistor dimensions
+The visible output transitions track the corresponding input-driven logic changes and appear aligned within approximately one horizontal plot pixel. Therefore, the waveform supports the following visual timing resolution:
 
-The NMOS and PMOS property windows in the supplied Cadence screenshots show the following device dimensions:
+| Timing observation | Result |
+|---|---:|
+| Apparent input-to-output transition difference | ≤ approximately 0.25 ns at the displayed plot resolution |
+| Apparent low-to-high output transition difference | ≤ approximately 0.25 ns at the displayed plot resolution |
+| Apparent high-to-low output transition difference | ≤ approximately 0.25 ns at the displayed plot resolution |
+
+These are graphical-resolution bounds read from the screenshot, not sub-pixel simulator measurements. The waveform does not provide sufficient resolution to distinguish a more precise propagation or contamination delay.
+
+### 15.3 Sequential timing applicability
+
+The parity generator and checker are combinational logic blocks built from XOR stages. They do not contain a clocked storage element or a clock distribution network. Setup time, hold time, and clock skew are therefore not applicable to this circuit.
+
+### 15.4 Transistor dimensions
+
+The Cadence device-property screenshots show the following NMOS and PMOS dimensions:
 
 | Device | Channel length (L) | Total width (W) | Fingers | W/L ratio |
 |---|---:|---:|---:|---:|
 | NMOS | 100 nm | 120 nm | 1 | 1.2 |
 | PMOS | 100 nm | 120 nm | 1 | 1.2 |
 
-Calculation:
-
 `W/L = 120 nm / 100 nm = 1.2`
 
-### 15.3 Layout verification
+### 15.5 Physical verification
 
-The Cadence DRC result dialog reports **“No DRC errors found”**, corresponding to zero reported DRC violations in the displayed run.
-
-The LVS debug screenshots report **“Schematic and Layout Match”**. The comparison summary shown in the screenshot also reports zero net, device, pin, and parameter mismatches.
+The supplied Cadence DRC result dialog reports **“No DRC errors found.”** The LVS debug screenshots report **“Schematic and Layout Match”**, with zero net, device, pin, and parameter mismatches in the displayed comparison summary.
 
 | Verification item | Result |
 |---|---:|
@@ -274,9 +282,9 @@ The LVS debug screenshots report **“Schematic and Layout Match”**. The compa
 | LVS pin mismatches | 0 |
 | LVS parameter mismatches | 0 |
 
-### 15.4 Simulation evidence
+### 15.6 Simulation evidence
 
-The repository includes the transient response of the parity generator and checker, showing the input channels and the generated parity and check outputs over the 400 ns test interval. The supplied Cadence screenshots also document the completed physical layout and the DRC/LVS verification results.
+The repository contains a transient response waveform for the parity generator and checker over a 400 ns test interval, together with the complete physical layout and DRC/LVS verification screenshots.
 
 ## 16. Applications
 
