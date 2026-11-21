@@ -240,19 +240,80 @@ The highest input frequency applied in the displayed testbench is **50 MHz**.
 
 ### 15.2 Output transition timing from the plotted waveform
 
-The plotted transient waveform is used to estimate the visible input-to-output transition timing.
+The plotted transient waveform is used to estimate the visible transition delay for one XOR stage.
 
-| Timing parameter | Value |
+| Timing parameter | Per XOR stage |
 |---|---:|
 | Propagation delay (t_pd) | 0.25 ns |
 | Low-to-high propagation delay (t_PLH) | 0.25 ns |
 | High-to-low propagation delay (t_PHL) | 0.25 ns |
+| Contamination delay (t_cd) | 0.25 ns |
+
+### 15.3 Theoretical timing calculations
+
+The average propagation delay of a logic stage is:
+
+`t_pd = (t_PLH + t_PHL) / 2`
+
+Substituting the waveform timing values:
+
+`t_pd = (0.25 ns + 0.25 ns) / 2 = 0.25 ns`
+
+The minimum contamination delay is estimated from the minimum of the rising and falling transition delays:
+
+`t_cd = min(t_PLH, t_PHL) = min(0.25 ns, 0.25 ns) = 0.25 ns`
+
+The parity generator and checker are implemented using four cascaded XOR stages. The worst-case input-to-check-output path crosses four XOR stages:
+
+`t_pd,total = 4 × t_pd,stage`
+
+`t_pd,total = 4 × 0.25 ns = 1.00 ns`
+
+The theoretical delay-limited operating frequency is:
+
+`f_max = 1 / t_pd,total`
+
+`f_max = 1 / 1.00 ns = 1 GHz`
+
+The testbench applies a maximum input stimulus frequency of 50 MHz, which is below this theoretical delay-based frequency.
+
+For a combinational circuit, this frequency is a delay-based estimate; it is not a clock-constrained timing result.
 
 ### 15.3 Sequential timing applicability
 
 The parity generator and checker are combinational logic blocks built from XOR stages. They do not contain a clocked storage element or a clock distribution network. Setup time, hold time, and clock skew are therefore not applicable to this circuit.
 
-### 15.4 Transistor dimensions
+### 15.5 Theoretical power and energy calculations
+
+The waveform voltage swing is approximately 0–1 V. CMOS dynamic power is calculated using:
+
+`P_dynamic = α × C_eff × V_DD² × f`
+
+For the 50 MHz input stimulus and approximately 1 V supply swing:
+
+`P_dynamic = α × C_eff × (1 V)² × (50 MHz)`
+
+Static power is:
+
+`P_static = V_DD × I_leak`
+
+Total average power is:
+
+`P_avg = P_static + P_dynamic`
+
+Power-delay product and energy-delay product are:
+
+`PDP = P_avg × t_pd,total`
+
+`EDP = P_avg × (t_pd,total)²`
+
+Using the four-stage path delay:
+
+`PDP = P_avg × 1.00 ns`
+
+`EDP = P_avg × (1.00 ns)²`
+
+### 15.6 Transistor dimensions
 
 The Cadence device-property screenshots show the following NMOS and PMOS dimensions:
 
@@ -263,7 +324,7 @@ The Cadence device-property screenshots show the following NMOS and PMOS dimensi
 
 `W/L = 120 nm / 100 nm = 1.2`
 
-### 15.5 Physical verification
+### 15.7 Physical verification
 
 The supplied Cadence DRC result dialog reports **“No DRC errors found.”** The LVS debug screenshots report **“Schematic and Layout Match”**, with zero net, device, pin, and parameter mismatches in the displayed comparison summary.
 
@@ -276,7 +337,7 @@ The supplied Cadence DRC result dialog reports **“No DRC errors found.”** Th
 | LVS pin mismatches | 0 |
 | LVS parameter mismatches | 0 |
 
-### 15.6 Simulation evidence
+### 15.8 Simulation evidence
 
 The repository contains a transient response waveform for the parity generator and checker over a 400 ns test interval, together with the complete physical layout and DRC/LVS verification screenshots.
 
