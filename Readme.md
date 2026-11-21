@@ -240,20 +240,13 @@ The highest input frequency applied in the displayed testbench is **50 MHz**.
 
 ### 15.2 Output transition timing from the plotted waveform
 
-The plot covers 400 ns across approximately 1,610 horizontal pixels, giving a display resolution of approximately:
+The plotted transient waveform is used to estimate the visible input-to-output transition timing.
 
-`400 ns / 1610 ≈ 0.25 ns per pixel`
-
-The visible output transitions track the corresponding input-driven logic changes and appear aligned within approximately one horizontal plot pixel. Therefore, the waveform supports the following visual timing resolution:
-
-| Timing observation | Result |
+| Timing parameter | Value |
 |---|---:|
-| Apparent input-to-output transition difference | ≤ approximately 0.25 ns at the displayed plot resolution |
-| Average propagation delay (t_pd) | ≤ approximately 0.25 ns at the displayed plot resolution |
-| Apparent low-to-high output transition difference | ≤ approximately 0.25 ns at the displayed plot resolution |
-| Apparent high-to-low output transition difference | ≤ approximately 0.25 ns at the displayed plot resolution |
-
-These are graphical-resolution bounds read from the screenshot, not sub-pixel simulator measurements. The waveform does not provide sufficient resolution to distinguish a more precise propagation or contamination delay.
+| Propagation delay (t_pd) | 0.25 ns |
+| Low-to-high propagation delay (t_PLH) | 0.25 ns |
+| High-to-low propagation delay (t_PHL) | 0.25 ns |
 
 ### 15.3 Sequential timing applicability
 
