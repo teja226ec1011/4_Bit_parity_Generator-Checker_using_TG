@@ -222,75 +222,119 @@ The LVS debugging screenshots are included below for reference.
 
 ## 15. Timing, Power, and Physical Design Metrics
 
-The repository currently contains a transient waveform screenshot and layout/DRC/LVS screenshots, but it does **not** contain the numerical simulator measurements, supply-current data, or layout dimensions required to report defensible timing, power, and area values. Therefore, unavailable values are marked **Not reported** rather than estimated or fabricated.
+This section summarizes the numerical information that can be read from the repository waveform and the additional Cadence Virtuoso screenshots supplied with the project. Values that cannot be extracted from the available plots or screenshots are left as **Not available**.
 
-### 15.1 Available observation from the transient waveform
+### 15.1 Simulation and input timing
 
-The displayed transient plot spans 0–400 ns. The A input toggles at approximately 10 ns intervals (20 ns full period), corresponding to an **input stimulus frequency of approximately 50 MHz**. This is only the applied testbench frequency; it is **not** a measured maximum operating frequency (Fmax).
+The transient waveform image in the repository shows a simulation time range of approximately 0–400 ns. Input A has an approximately 20 ns full period (about 10 ns between successive toggles).
 
-### 15.2 Timing metrics
-
-| Metric | Result | How it must be measured |
+| Parameter | Result | Basis |
 |---|---:|---|
-| Propagation delay (t_pd) | Not reported | Measure input-to-output delay at the specified voltage threshold; commonly report the relevant worst-case path |
-| Low-to-high delay (t_PLH) | Not reported | Time from the input 50% crossing to output 50% rising crossing |
-| High-to-low delay (t_PHL) | Not reported | Time from the input 50% crossing to output 50% falling crossing |
-| Contamination delay (t_cd) | Not reported | Minimum input-to-output delay, measured over relevant transitions and input conditions |
-| Setup time (t_setup) | N/A for the shown combinational block | The design shown has no clocked storage element; setup time applies to a sequential endpoint |
-| Hold time (t_hold) | N/A for the shown combinational block | The design shown has no clocked storage element; hold time applies to a sequential endpoint |
-| Clock skew (t_skew) | N/A | No clock network or clocked endpoints are shown |
-| Maximum frequency (F_max) | Not determined | Requires a defined synchronous interface/clock constraint or a documented delay-based operating criterion; 50 MHz is only the testbench stimulus |
+| Transient simulation window | 0–400 ns | Time axis of the waveform screenshot |
+| Input A period | ≈20 ns | Approximate interval between equivalent edges |
+| Input A frequency | ≈50 MHz | f = 1/T = 1/(20 ns) |
+| Input A half-period | ≈10 ns | Approximate interval between successive toggles |
+| Supply voltage / logic swing | Not readable with sufficient certainty | Waveform image does not provide a reliable numeric scale in the available copy |
 
-For a measured path, report both edge delays. A commonly used average propagation delay is:
+**Important:** 50 MHz is the input stimulus frequency used in the displayed testbench. It is not a measured maximum operating frequency of the parity circuit.
+
+### 15.2 Timing parameters
+
+| Parameter | Result | Explanation |
+|---|---:|---|
+| Propagation delay (t_pd) | Not available | The waveform image does not provide sufficiently precise, readable input/output threshold-crossing coordinates |
+| Low-to-high delay (t_PLH) | Not available | Requires input-to-output 50% crossing measurement for a rising output |
+| High-to-low delay (t_PHL) | Not available | Requires input-to-output 50% crossing measurement for a falling output |
+| Contamination delay (t_cd) | Not available | Requires the minimum observed input-to-output delay |
+| Setup delay (t_setup) | N/A | The implemented parity generator/checker is combinational and has no clocked storage element |
+| Hold delay (t_hold) | N/A | The implemented parity generator/checker is combinational and has no clocked storage element |
+| Clock skew (t_skew) | N/A | No clock tree or clocked endpoints are part of this design |
+| Maximum frequency (F_max) | Not characterized | The 50 MHz testbench input rate does not establish the circuit's maximum reliable operating frequency |
+
+For measured transitions, the average propagation delay is commonly calculated as:
 
 `t_pd = (t_PLH + t_PHL) / 2`
 
-The worst-case propagation delay should also be stated when comparing timing limits.
+The worst-case propagation delay is the larger of the measured rising and falling delays.
 
-### 15.3 Power and energy metrics
+### 15.3 Power, PDP, and EDP
 
-| Metric | Result | Required data / calculation |
+| Parameter | Result | Calculation / measurement requirement |
 |---|---:|---|
-| Static power | Not reported | Measure leakage supply current with inputs held at defined static states; `P_static = V_DD × I_leak` |
-| Dynamic power | Not reported | Measure average switching power from the supply-current waveform, or use `P_dynamic ≈ α × C_eff × V_DD² × f` with justified activity and capacitance |
-| Average power | Not reported | Integrate supply power over a representative steady-state interval and divide by the interval |
-| Power-delay product (PDP) | Not reported | `PDP = P_average × t_pd` |
-| Energy-delay product (EDP) | Not reported | `EDP = P_average × t_pd²` |
+| Static power | Not available | `P_static = V_DD × I_leak`; requires static supply-current measurements |
+| Dynamic power | Not available | Requires transient supply-current integration or justified activity and capacitance data |
+| Average power | Not available | `P_avg = (1/T) × ∫ V_DD I_DD(t) dt` over a representative interval |
+| Power-delay product (PDP) | Not available | `PDP = P_avg × t_pd` |
+| Energy-delay product (EDP) | Not available | `EDP = P_avg × t_pd²` |
 
-PDP and EDP must use power and delay measured under the same supply, process, temperature, load, and input-activity conditions. The current README assets do not include the required supply-current or power-analysis results.
+The supplied waveform is a logic transient plot, not a supply-current or power waveform. Therefore, static power, dynamic power, PDP, and EDP cannot be numerically extracted from it.
 
-### 15.4 Pre-layout and post-layout simulation
+### 15.4 Device parameters visible in the Virtuoso screenshots
 
-| Simulation stage | Evidence in current repository | Quantitative result |
+The supplied device-property screenshots (PDF pages 9–11) show the GPDK090 NMOS and PMOS instance properties. The readable entries include:
+
+| Device property | NMOS | PMOS |
+|---|---:|---:|
+| Technology/model library | gpdk090 | gpdk090 |
+| Cell | nmos1v | pmos1v |
+| Channel length (L) | 100 nm | 100 nm |
+| Total width (W) | 120 nm | 120 nm |
+| Number of fingers | 1 | 1 |
+| W/L ratio | 1.2 | 1.2 |
+
+These are transistor instance dimensions visible in the screenshots; they are not the overall chip dimensions.
+
+### 15.5 Pre-layout and post-layout simulation
+
+| Stage | Available evidence | Result |
 |---|---|---|
-| Pre-layout | One transient waveform screenshot is present, but its simulation stage and measurement setup are not identified | Not reported |
-| Post-layout | A complete layout image and DRC/LVS screenshots are present; no post-layout extracted transient/power report is included | Not reported |
+| Pre-layout simulation | Transient waveform image in the repository | Functional waveform is shown; quantitative delay and power values are not readable |
+| Post-layout simulation | Physical layout and DRC/LVS screenshots | Layout verification evidence is present; no extracted post-layout transient or power report is supplied |
+| Pre-/post-layout comparison | No paired measurement reports | Delay and power difference cannot be calculated |
 
-A valid comparison requires separate pre-layout and post-layout simulation reports using the same input vectors, supply voltage, load, process corner, and temperature. Post-layout results should use extracted parasitics (PEX).
+A quantitative post-layout result requires parasitic extraction (PEX) followed by transient and power simulation under the same input vectors, supply, load, process corner, and temperature as the pre-layout run.
 
-### 15.5 Layout area and aspect ratio
+### 15.6 Layout verification, area, and aspect ratio
 
-| Metric | Result | Required data |
-|---|---:|---|
-| Core/layout width | Not reported | Layout boundary dimensions from Virtuoso |
-| Core/layout height | Not reported | Layout boundary dimensions from Virtuoso |
-| Layout area | Not reported | `Area = Width × Height` |
-| Aspect ratio | Not reported | `Aspect ratio = Width / Height` (state the width/height convention) |
+The supplied Cadence screenshots show the completed layout and a DRC result dialog reporting **“No DRC errors found.”** The LVS debug screenshots are included as evidence of the schematic-versus-layout verification flow.
 
-The layout screenshot has no readable dimension annotation or scale, so area and aspect ratio cannot be calculated reliably from the image alone. The DRC screenshot reports no DRC errors, and the LVS screenshots indicate a schematic/layout match; these are verification results, not area measurements.
+| Parameter | Result |
+|---|---:|
+| DRC violations shown in result dialog | 0 |
+| Layout width | Not available |
+| Layout height | Not available |
+| Layout area | Not available |
+| Aspect ratio | Not available |
 
-### 15.6 Data needed to complete the numerical results
+The layout boundary is visible in the screenshots, but its numeric width and height are not legible. A reliable area cannot be calculated from a screenshot without a readable dimension or scale.
 
-To replace the “Not reported” entries with measured values, add the following Cadence Virtuoso outputs to the repository:
+`Layout area = Width × Height`
 
-1. Transient measurement results (or a CSV waveform export) with input/output 50% crossing times for all relevant transitions.
-2. A measurement setup/report for minimum contamination delay and worst-case propagation delay.
-3. Supply-current or power-analysis reports for static and switching input conditions.
-4. Separate pre-layout and post-layout (PEX) simulation reports.
-5. Layout boundary width and height from the Virtuoso ruler or cell properties.
-6. The process corner, temperature, supply voltage, output load, and input transition/activity conditions used for each run.
+`Aspect ratio = Width / Height`
 
-Until these reports are added, the metrics above should be treated as **not characterized**, not as zero.
+### 15.7 Summary of currently extractable results
+
+| Metric | Result |
+|---|---:|
+| Input A frequency | ≈50 MHz |
+| Input A period | ≈20 ns |
+| Transient plot time span | 400 ns |
+| NMOS channel length | 100 nm |
+| NMOS total width | 120 nm |
+| PMOS channel length | 100 nm |
+| PMOS total width | 120 nm |
+| NMOS and PMOS W/L | 1.2 |
+| DRC errors shown | 0 |
+| t_pd, t_PLH, t_PHL | Not available from readable plot coordinates |
+| Contamination delay | Not available |
+| F_max | Not characterized |
+| Static and dynamic power | Not available |
+| PDP and EDP | Not available |
+| Setup, hold, clock skew | N/A for this combinational design |
+| Post-layout delay/power | Not available |
+| Chip area and aspect ratio | Not available |
+
+**Measurement note:** The numerical timing, power, and physical dimensions listed as unavailable require Cadence calculator/measurement outputs, supply-current data, PEX reports, or readable layout boundary dimensions. They are not inferred from the logic waveform or layout appearance.
 
 ---
 
