@@ -244,7 +244,7 @@ For example, for A0:
 
 The displayed transient simulation window is approximately **400 ns**. These frequencies describe the applied testbench input patterns.
 
-The **highest input stimulus frequency is 50 MHz**, set by channel A0. This is the maximum frequency applied in the shown testbench, not a measured maximum operating frequency of the circuit.
+The **highest input stimulus frequency is 50 MHz**, set by channel A0.
 
 ### 15.2 Transistor dimensions
 
