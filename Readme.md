@@ -244,10 +244,10 @@ The plotted transient waveform is used to estimate the visible transition delay 
 
 | Timing parameter | Per XOR stage |
 |---|---:|
-| Propagation delay (t_pd) | 0.25 ns |
-| Low-to-high propagation delay (t_PLH) | 0.25 ns |
-| High-to-low propagation delay (t_PHL) | 0.25 ns |
-| Contamination delay (t_cd) | 0.25 ns |
+| Propagation delay (t_pd) | 0.00 ns |
+| Low-to-high propagation delay (t_PLH) | 0.00 ns |
+| High-to-low propagation delay (t_PHL) | 0.00 ns |
+| Contamination delay (t_cd) | 0.00 ns |
 
 ### 15.3 Theoretical timing calculations
 
